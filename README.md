@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="image1.png" width="96" alt="Pong++ Logo"/>
+  <img src="./assets/logo.png" width="96" alt="Pong++ Logo"/>
 </p>
 
 <h1 align="center">Pong++</h1>
