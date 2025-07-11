@@ -1,5 +1,8 @@
 #include <iostream>
 #include <cstdlib> // per system("clear")
+#include <fcntl.h>
+#include <unistd.h> // per sleep()
+#include <termios.h>
 
 void draw(int WIDTH, int HEIGHT, int ballX, int ballY, int paddleLeftY, int paddleRightY, int PADDLE_SIZE) {
     // Disegna il campo di gioco
@@ -23,6 +26,27 @@ void draw(int WIDTH, int HEIGHT, int ballX, int ballY, int paddleLeftY, int padd
     }
 }
 
+
+void setupTerminal() {
+    termios term;
+    tcgetattr(STDIN_FILENO, &term);
+    term.c_lflag &= ~(ICANON | ECHO); // disabilita input canonico e echo
+    tcsetattr(STDIN_FILENO, TCSANOW, &term);
+    fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK); // imposta stdin in modalità non bloccante
+}
+
+void resetTerminal() {
+    termios term;
+    tcgetattr(STDIN_FILENO, &term);
+    term.c_lflag |= (ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
+char getInput() {
+    char ch = 0;
+    read(STDIN_FILENO, &ch, 1);
+    return ch;
+}
 int main() {
     const int WIDTH = 40;      // larghezza campo
     const int HEIGHT = 20;     // altezza campo
@@ -38,6 +62,16 @@ int main() {
     int paddleRightY = HEIGHT / 2 - PADDLE_SIZE / 2; // posizione verticale racchetta destra
 
     system("clear");
+
     draw(WIDTH, HEIGHT, ballDirY, ballDirX, paddleLeftY, paddleRightY, PADDLE_SIZE);
+
+    setupTerminal();
+
+	atexit(0, resetTerminal);
+
+    char ch = getInput();
+	if (ch == 'w' && paddleLeftY > 1) paddleLeftY--;
+	if (ch == 's' && paddleLeftY + PADDLE_SIZE < HEIGHT - 1) paddleLeftY++;
+
     return 0;
 }
