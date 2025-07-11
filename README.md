@@ -43,8 +43,7 @@ Pong++ is a faithful and nostalgic reinterpretation of the classic Pong game, de
 Make sure you have a C++ compiler (GCC, Clang, etc.).
 
 ```sh
-g++ -std=c++98
-g++ -o pongpp main.cpp
+g++ -std=c++98 -o pongpp main.cpp
 ```
 
 On classic systems, use the native C++ compiler.
