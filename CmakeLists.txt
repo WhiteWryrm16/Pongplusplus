@@ -1,0 +1,13 @@
+cmake_minimum_required(VERSION 3.31)
+project(example_project)
+
+file(GLOB_RECURSE sources src/*.cpp src/*.h)
+
+# add the data to the target, so it becomes visible in some IDE
+add_executable(example ${sources} ${data})
+
+# just for example add some compiler flags
+target_compile_features(example PUBLIC cxx_std_98)
+
+# this lets me include files relative to the root source directory with a <> pair
+target_include_directories(example PUBLIC src)
