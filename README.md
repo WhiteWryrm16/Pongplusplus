@@ -44,6 +44,7 @@ Make sure you have a C++ compiler (GCC, Clang, etc.).
 
 ```sh
 g++ -std=c++98 -o pongpp main.cpp
+on Windows systems use windows.cpp instead off main.cpp
 ```
 
 On classic systems, use the native C++ compiler.
